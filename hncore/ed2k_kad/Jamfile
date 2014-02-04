@@ -1,0 +1,9 @@
+import hn ;
+
+project cmod_ed2k_kad ;
+hn.plugin
+	: ed2k_kad.cpp packets.cpp searchtree.cpp
+	: ed2k_kad.h kademlia.h opcodes.h packets.h searchtree.h
+	: # link flags
+	: ../../extra/zlib ../ed2k
+;

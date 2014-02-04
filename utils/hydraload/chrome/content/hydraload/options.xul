@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	onload="getOptions();"
+        ondialogaccept="setOptions();"
+        flex="1"
+        persist="screenX screenY"
+        title="Options"
+        id="hydraload-options"
+        windowtype="hydraload-options">        
+        
+        <script type="application/x-javascript">
+               	var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+		
+		function getOptions() {		
+			var host = "127.0.0.1";
+			var port = "9999";
+					
+			if (prefs.getPrefType("hydraload.host") == prefs.PREF_STRING) {
+				host = prefs.getCharPref("hydraload.host");
+  			}
+  			if (prefs.getPrefType("hydraload.port") == prefs.PREF_INT) {
+				port = prefs.getIntPref("hydraload.port");
+  			}	  			  			
+  			document.getElementById("text-host").value = host;
+			document.getElementById("text-port").value = port;  			
+		}
+		
+		function setOptions() {			
+			var host = document.getElementById("text-host").value;
+			var port = document.getElementById("text-port").value;	
+					
+			if (host == "") {
+				host = "127.0.0.1";
+			}
+			if (port == "") {
+				port = "9999";
+			}
+						
+			prefs.setCharPref("hydraload.host", host);			
+			prefs.setIntPref("hydraload.port", port);
+			window.close();
+		}		
+	</script>    
+	
+	<groupbox align="center" orient="horizontal">
+		<vbox>
+			<text value="HydraLoad" style="font-weight: bold; font-size: x-large;"/>			
+			<separator class="thin"/>
+			<text value="Host:" style="font-weight: bold;"/>
+			<textbox id="text-host" value="127.0.0.1" flex="1" oninput=""/>			
+			<text value="Port:" style="font-weight: bold;"/>
+			<textbox id="text-port" value="9999" flex="1" oninput=""/>			
+		</vbox>
+		<spring flex="1"/>
+		<image src="chrome://hydraload/skin/hydranode.gif" />
+	</groupbox>
+
+	<hbox>
+		<spacer flex="1"/>
+		<button dlgtype="accept" />
+    		<button dlgtype="cancel" />
+	</hbox>
+
+</dialog>

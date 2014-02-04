@@ -1,0 +1,104 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>DownloadWnd</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>DownloadWnd</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>492</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>test-download</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>m_status</cstring>
+            </property>
+            <property name="text">
+                <string>textLabel1</string>
+            </property>
+        </widget>
+        <widget class="QListView" row="0" column="0">
+            <column>
+                <property name="text">
+                    <string>File name</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Size</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Completed</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Speed</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Progress</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Sources</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <property name="name">
+                <cstring>m_list</cstring>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

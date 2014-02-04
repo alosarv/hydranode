@@ -1,0 +1,9 @@
+lib unit_test
+	: test_tools.cpp unit_test_log.cpp unit_test_main.cpp
+	  unit_test_monitor.cpp unit_test_parameters.cpp unit_test_suite.cpp
+	  execution_monitor.cpp framework.cpp results_collector.cpp
+	  results_reporter.cpp xml_log_formatter.cpp compiler_log_formatter.cpp
+	  progress_monitor.cpp xml_report_formatter.cpp
+	  plain_report_formatter.cpp
+;
+

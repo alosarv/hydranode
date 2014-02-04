@@ -1,0 +1,235 @@
+# (c) 2005 Lorenz Bauer
+# Released under the GPLv2
+# Based on work and code snippets by Vladimir Prus
+
+# This file accumulates various convenience rules for the HydraNode buildsystem:
+#  - Plugin setup
+#  - Command line arguments (--prefix, --bindir, etc.)
+#  - Install rules for libraries, headers and binaries
+
+import targets ;
+import project ;
+import utility ;
+import modules ;
+import regex ;
+import stage ;
+import path ;
+import os ;
+
+# Support for bundles on darwin
+import type ;
+import generators ;
+
+type.register bundle : : BUNDLE ;
+if [ os.name ] != NT && Darwin in [ modules.peek : JAMUNAME ] {
+	generators.register-composing darwin.link.bundle : OBJ LIB : bundle ;
+}
+
+## --- Helpers
+
+# Returns an option parsed from commandline, filtered though path.make
+local rule get-opt ( name : default ? ) {
+	local option = [ MATCH --$(name)=(.*) : [ modules.peek : ARGV ] ] ;
+	if $(option) {
+		return [ path-make "$(option)" ] ;
+	} else {
+		return "$(default)" ;
+	}
+}
+
+# Escapes a string for use in a regex. Useful for paths like C:\Projects\C++\
+# that contain special charecters that need to be escaped. You'll get some
+# funky errors if you forget to escape properly, trust me.
+rule regex-escape ( string ) {
+	return [ regex.escape $(string) : "\\*\\+\\?\\.\\\\" : "\\" ] ;
+}
+
+# Removes a common prefix from a list (useful for glob'ed dirlists)
+local rule remove-prefix ( prefix : list * ) {
+	prefix = [ regex-escape $(prefix) ] ;
+	return [ MATCH $(prefix)(.*) : $(list) ] ;
+}
+
+# Fix ticket #104: path.make is broken, it can't cope with paths that have
+# spaces in them, therefore we join the string first.
+rule path-make ( path * ) {
+	return [ path.make $(path:J=" ") ] ;
+}
+
+local rule current-project ( ) {
+	local project = [ project.current ] ;
+	return [ $(project).project-module ] ;
+}
+
+# Returns the absolute project root
+rule project-root ( ) {
+	local project = [ project.current ] ;
+	local mod = [ $(project).project-module ] ;
+
+	return [ path-make [ path.root [ project.attribute $(mod) project-root ] [ path.pwd ] ] ] ;
+}
+
+rule dirname ( path )
+{
+	local match = [ MATCH "(.*)[/\\][^/\\]+$" : $(path) ] ;
+	if ! $(match) {
+		return . ;
+	} else {
+		return [ path-make $(match) ] ;
+	}
+}
+
+## Rules returning the correct locations for headers, libs, plugins, etc.
+rule prefix ( ) {
+	local prefix = [ get-opt prefix : "" ] ;
+	if ! $(prefix) {
+		if [ os.name ] = NT {
+			# Fix for ticket #104
+			prefix  = [ modules.peek : ProgramFiles ] ; # cmd.exe
+			prefix ?= [ modules.peek : PROGRAMFILES ] ; # MSYS
+			prefix  = $(prefix:J=" ") ;
+			prefix  = "$(prefix)\\Hydranode" ;
+		} else { prefix = "/opt/hydranode" ; }
+	}
+
+	local relative = [ MATCH "^~(.*)" : $(prefix) ] ;
+	if $(relative) {
+		if [ os.name ] = NT {
+			prefix = [ modules.peek : USERPROFILE ] ;
+		} else {
+			prefix = [ modules.peek : HOME ] ;
+		}
+
+		prefix = $(prefix[1])$(relative[1]) ;
+	}
+
+	prefix = [ path-make $(prefix) ] ;
+	return [ path-make [ path.root "$(prefix)" [ project-root ] ] ] ;
+}
+
+local rule location ( opt nt_default unix_default ? ) {
+	unix_default ?= $(nt_default) ;
+	local option = [ get-opt $(opt) : "" ] ;
+
+	if ! $(option) {
+		if [ os.name ] = NT {
+			option = $(nt_default) ;
+		} else {
+			option = $(unix_default) ;
+		}
+	}
+
+	return [ path-make $(option) ] ;
+}
+
+rule plugin-locate ( ) {
+	local prefix = [ prefix ] ;
+	return [ location plugindir "$(prefix)/plugins" ] ;
+}
+
+rule header-locate ( ) {
+	local prefix = [ prefix ] ;
+	return [ location includedir "$(prefix)/include" ] ;
+}
+
+rule lib-locate ( ) {
+	local prefix = [ prefix ] ;
+	return [ location libdir "$(prefix)" "$(prefix)/lib" ] ;
+}
+
+rule bin-locate ( ) {
+	local prefix = [ prefix ] ;
+	return [ location bindir "$(prefix)" "$(prefix)/bin" ] ;
+}
+
+rule wrapper-locate ( ) {
+	return [ location wrapperdir "/usr/local/bin" ] ;
+}
+
+## --- These rules do the real work
+# This rule should be used by every HN plugin
+rule plugin ( name ? : sources * : headers * : options * : deps * ) {
+	local workdir = [ dirname [ utility.caller-file ] ] ;
+	local root = [ project-root ] ;
+
+	local plugin-locate = [ plugin-locate ] ;
+	local header-locate = [ header-locate ] ;
+
+	local extra-dir = [ path-make "$(root)/extra" ] ;
+
+	local boost-libs = [ remove-prefix $(extra-dir)/ : [ path.glob $(extra-dir) : boost_* ] ] ;
+	boost-libs = $(extra-dir)//$(boost-libs) ;
+
+	local extra-deps ;
+	if [ os.name ] = NT || Darwin in [ modules.peek : JAMUNAME ] {
+		extra-deps = $(boost-libs)
+			     $(root)/hncore//hncore
+			     $(root)/hnbase
+		;
+	}
+
+	if ! $(sources) {
+		sources = [ remove-prefix $(workdir)/ : [ path.glob $(workdir) : *.cpp ] ] ;
+	}
+
+	if ! $(headers) {
+		headers = [ remove-prefix $(workdir)/ : [ path.glob $(workdir) : *.h ] ] ;
+	}
+
+	local project = [ current-project ] ;
+
+	if ! $(name) {
+		name = [ MATCH ^/(.*) : [ project.attribute $(project) id ] ] ;
+	}
+
+	if [ os.name ] != NT && Darwin in [ modules.peek : JAMUNAME ] {
+		bundle $(name) : $(sources) $(extra-deps) $(deps) : $(options) <define>__MODULE__ ;
+	} else {
+		lib $(name) : $(sources) $(extra-deps) $(deps) : $(options) <define>__MODULE__ ;
+	}
+
+	stage.install install-plugins : $(name) : <location>$(plugin-locate) ;
+	stage.install install-headers : $(headers) : <location>$(header-locate) <install-source-root>$(root) ;
+	alias install : install-plugins install-headers ;
+
+	module $(project) {
+		explicit install install-plugins install-headers ;
+	}
+}
+
+# Creates a rule that installs binaries
+rule install-bin ( binaries * ) {
+	local bin-locate = [ bin-locate ] ;
+
+	stage.install install-bin : $(binaries) : <location>$(bin-locate) ;
+	module [ current-project ] { explicit install-bin ; }
+}
+
+rule install-libs ( libraries * ) {
+	local lib-locate = [ lib-locate ] ;
+
+	stage.install install-libs : $(libraries) : <location>$(lib-locate) ;
+	module [ current-project ] { explicit install-libs ; }
+}
+
+rule install-headers ( headers * : source-root ? ) {
+	local header-locate = [ header-locate ] ;
+
+	if ! $(source-root) {
+		source-root = [ project-root ] ;
+	}
+
+	stage.install install-headers : $(headers) : <location>$(header-locate)
+		<install-source-root>$(source-root) ;
+	module [ current-project ] { explicit install-headers ; }
+}
+
+rule install ( install-rules * ) {
+	alias install : $(install-rules) ;
+	module [ current-project ] { explicit install ; }
+}
+
+# Convenience rule for creating an alias
+rule create-alias ( name : targets * ) {
+	alias $(name) : $(targets)//$(name) ;
+}

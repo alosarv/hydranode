@@ -1,0 +1,24 @@
+import os ;
+local extra_deps ;
+if [ os.name ] != NT {
+        if Linux in [ modules.peek : JAMUNAME ] {
+                lib dl : : <name>dl ;
+                extra_deps = dl ;
+        }
+}
+
+exe hasher
+	: test-hasher.cpp
+	  ..//hncore ../../hnbase ../../extra $(extra_deps)
+	:
+;
+exe ipfilter : test-ipfilter.cpp ..//hncore ../../hnbase ../../extra $(extra_deps) ;
+exe metadata : test-metadata.cpp ..//hncore ../../hnbase ../../extra $(extra_deps)
+	 ../../extra ../../extra/test ;
+exe partdata : test-partdata.cpp ..//hncore ../../hnbase ../../extra $(extra_deps) ;
+exe workthread : test-workthread.cpp ..//hncore ../../hnbase ../../extra $(extra_deps) ;
+exe kademlia : test-kademlia.cpp ..//hncore ../../hnbase ../../extra $(extra_deps) ;
+
+stage bin : hasher ipfilter metadata partdata workthread kademlia
+	: <location>bin <hardcode-dll-paths>true
+;

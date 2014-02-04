@@ -1,0 +1,19 @@
+import hn ;
+import stage ;
+import wrapper ;
+
+# Paths for out templates
+local libdir = [ hn.lib-locate ] ;
+local bindir = [ hn.bin-locate ] ;
+
+# Setup compiler and templates
+exe wrapper-compiler : wrapperc.cpp ;
+explicit wrapper-compiler ;
+
+exe hlink : hlink.wrapper : <variable>LIBDIR=$(libdir) <variable>BINDIR=$(bindir) ;
+exe hydranode : hydranode.wrapper : <variable>LIBDIR=$(libdir) <variable>BINDIR=$(bindir) ;
+
+# Installation
+local wrapperdir = [ hn.wrapper-locate ] ;
+stage.install install-wrappers : hlink hydranode : <location>$(wrapperdir) ;
+explicit install-wrappers ;

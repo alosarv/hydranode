@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<window id="linkSubmitWindow"
+	title="HydraLoad"
+	orient="horizontal"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	onload="window.opener.createSubmitWindow();">
+ 	
+ 	<hbox> 	
+ 		<groupbox align="center" orient="horizontal">
+			<vbox>
+				<image src="chrome://hydraload/skin/hydranode.gif" />
+				<separator class="thin" />					
+ 				<text value="HydraLoad" style="font-weight: bold; font-size: large;" />    						
+			</vbox>
+		</groupbox>
+	
+		<groupbox align="center" orient="horizontal">
+			<vbox>	  	
+				<label id="submit-text" />				
+				<label id="submit-response" />
+				<spacer flex="1" />
+				<button label="Close" oncommand="window.close();" />				
+			</vbox>
+		</groupbox>
+	</hbox>		
+</window>

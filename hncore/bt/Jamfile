@@ -1,0 +1,13 @@
+import hn ;
+project cmod_bt ;
+
+local BT_SOURCES = bencoder bittorrent client files torrentinfo torrent tracker ;
+hn.plugin : $(BT_SOURCES).cpp ;
+exe bget
+	: cmod_bt bget.cpp ../../hnbase ../../hncore ../../extra
+	: <define>__BT_IMPORTS__
+;
+
+
+hn.install-bin bget ;
+hn.install install-bin ;

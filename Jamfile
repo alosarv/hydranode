@@ -1,0 +1,288 @@
+import modules ;
+import stage ;
+import path ;
+import set ;
+import os ;
+import hn ;
+
+## --- Settings
+
+# Plugins that are ignored.
+local ignored-plugins = minimal dc ftp ed2k_kad ;
+
+# Plugins compiled by default
+local default-plugins = "*" ;
+
+# Expected Boost version
+local boost-ver = 1_33_1 ;
+
+## --- Rules
+
+# Filter specified entries from a list
+rule filter-list ( list * : filter * ) {
+	return [ set.difference $(list) : $(filter) ] ;
+}
+
+# Returns available, enabled plugins
+rule plugins ( available * : default * ) {
+	local with-option = [ MATCH --with-mod-(.*) : [ modules.peek : ARGV ] ] ;
+	local without-option = [ MATCH --without-mod-(.*) : [ modules.peek : ARGV ] ] ;
+
+	local enabled ;
+	if $(default) = "*" {
+		enabled = $(available) ;
+	} else {
+		enabled = $(default) ;
+	}
+
+	local invalid = [ set.intersection $(with-option) : $(without-option) ] ;
+	if $(invalid) {
+		ECHO "error: --with-mod-$(invalid[1]) and --without-mod-$(invalid[1]) was specified!" ;
+		EXIT ;
+	}
+
+	local invalid = [ set.difference $(with-option) : $(available) ] ;
+	if $(invalid) {
+		ECHO "error: plugin $(wrong[1]) doesn't exist!" ;
+		EXIT ;
+	}
+
+	if $(with-option) {
+		enabled += [ set.intersection $(available) : $(with-option) ] ;
+	}
+
+	if $(without-option) {
+		enabled = [ set.difference $(enabled) : $(without-option) ] ;
+	}
+
+	return $(enabled) ;
+}
+
+rule plugin-targets ( plugins * ) {
+	local targets ;
+	for local plugin in $(plugins) {
+		targets += "hncore/$(plugin)//cmod_$(plugin)" ;
+	}
+
+	return $(targets) ;
+}
+
+## --- Misc.
+
+# Setup defaults
+local libloc = lib ;
+BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
+
+if [ os.name ] = NT {
+	# Windows specific
+	libloc = . ;
+	BOOST_ROOT ?= c:\\boost_$(boost-ver) ;
+} else {
+	# Unix specific (well, anything not Windows)
+	if ! $(BOOST_ROOT) {
+		BOOST_ROOT = [ modules.peek : HOME ] ;
+		BOOST_ROOT = $(BOOST_ROOT:J=" ")/boost_$(boost-ver) ;
+	}
+}
+local dLibLoc = debug/$(libloc) ;
+local pLibLoc = profile/$(libloc) ;
+local rLibLoc = release/$(libloc) ;
+
+# Find Boost libs to build
+local libs = [ MATCH  .*extra/(.*) : [ glob extra/boost_* ] ] ;
+
+# Find plugins the user wants to be compiled
+local plugins = [ MATCH .*hncore/(.*)/Jamfile : [ glob hncore/*/Jamfile ] ] ;
+plugins = [ filter-list $(plugins) : $(ignored-plugins) test ] ;
+plugins = [ plugins $(plugins) : $(default-plugins) ] ;
+
+local plugin-targets = [ plugin-targets $(plugins) ] ;
+
+## --- The Real Thing (tm)
+
+project hydranode
+	: requirements
+		<include>.
+		<include>$(BOOST_ROOT)
+		<threading>multi
+		<define>_LARGE_FILES
+		<define>_FILE_OFFSET_BITS=64
+		<define>_INTEGRAL_MAX_BITS=64
+		<link>static:<define>STATIC_BUILD
+		<toolset>gcc:<cflags>-pedantic
+		<toolset>gcc:<cflags>-Wno-long-long
+		<dll-path>$(libloc)
+#		<toolset>msvc:<runtime-debugging>off
+	: build-dir bin
+;
+
+stage libs
+	: extra//$(libs)
+	  extra/zlib
+	: <variant>debug:<location>$(dLibLoc)
+	  <variant>release:<location>$(rLibLoc)
+	  <variant>profile:<location>$(pLibLoc)
+;
+
+stage hnbase
+	: hnbase//hnbase
+	: <variant>debug:<location>$(dLibLoc)
+	  <variant>release:<location>$(rLibLoc)
+	  <variant>profile:<location>$(pLibLoc)
+;
+
+stage hncore
+	: hncore//hncore
+	: <variant>debug:<location>$(dLibLoc)
+	  <variant>release:<location>$(rLibLoc)
+	  <variant>profile:<location>$(pLibLoc)
+;
+
+stage plugins
+	: $(plugin-targets)
+	: <variant>debug:<location>debug/plugins
+	  <variant>release:<location>release/plugins
+	  <variant>profile:<location>profile/plugins
+;
+
+stage utils
+	: utils//pfwd utils//hlink
+	: <variant>debug:<location>debug
+	  <variant>release:<location>release
+	  <variant>profile:<location>profile
+;
+
+stage bget
+	: hncore/bt//bget
+	: <dll-path>plugins
+	  <variant>debug:<location>debug
+	  <variant>release:<location>release
+	  <variant>profile:<location>profile
+;
+
+stage httpget
+	: hncore/http//httpget
+	: <dll-path>plugins
+	  <variant>debug:<location>debug
+	  <variant>release:<location>release
+	  <variant>profile:<location>profile
+;
+
+stage hydranode
+	: hncore//hydranode
+	: <variant>debug:<location>debug
+	  <variant>release:<location>release
+	  <variant>profile:<location>profile
+;
+
+## --- Installation
+hn.create-alias install-plugins : hncore/$(plugins) ;
+hn.create-alias install-headers : hncore/$(plugins) hncore hnbase extra/zlib ;
+hn.create-alias install-libs : hncore hnbase extra extra/zlib ;
+hn.create-alias install-bin : hncore utils hncore/bt ;
+
+# The wrappers are only useful on Unix
+if [ os.name ] != NT {
+	hn.create-alias install-wrappers : utils/wrappers ;
+	explicit install-wrappers ;
+}
+
+alias install : install-plugins install-libs install-bin ;
+explicit install install-plugins install-libs install-bin install-headers ;
+
+
+## --- Monolithic binaries
+# This is used to compile monolithic binaries for profiling purposes
+#
+local flags = <define>BUILT_IN<link>shared:<define>BOOST_ALL_DYN_LINK=1
+	<define>BOOST_ALL_NO_LIB
+	<define>_CRT_SECURE_NO_DEPRECATE <define>_SCL_SECURE_NO_DEPRECATE
+;
+
+HNBASE_SOURCES   = [ glob hnbase/*.cpp ] ;
+HNCORE_SOURCES   = [ glob hncore/*.cpp ] ;
+MOD_ED2K_SOURCES = [ glob hncore/ed2k/*.cpp ] ;
+MOD_HNSH_SOURCES = [ glob hncore/hnsh/*.cpp ] ;
+obj bt_client : [ glob hncore/bt/client.cpp ] :
+	<define>BUILT_IN<link>shared:<define>BOOST_ALL_DYN_LINK=1
+	<define>BOOST_ALL_NO_LIB
+	<define>_CRT_SECURE_NO_DEPRECATE <define>_SCL_SECURE_NO_DEPRECATE
+;
+MOD_BT_SOURCES   =
+	[ filter-list [ glob hncore/bt/*.cpp ] :
+		[ glob hncore/bt/bget.cpp ] [ glob hncore/bt/client.cpp ]
+	] bt_client ;
+MOD_HTTP_SOURCES = [ filter-list [ glob hncore/http/*.cpp ] : [ glob hncore/http/httpget.cpp ] ] ;
+obj cgcomm_client : [ glob hncore/cgcomm/client.cpp ] :
+	<define>BUILT_IN<link>shared:<define>BOOST_ALL_DYN_LINK=1
+	<define>BOOST_ALL_NO_LIB
+	<define>_CRT_SECURE_NO_DEPRECATE <define>_SCL_SECURE_NO_DEPRECATE
+;
+MOD_CGCOMM_SOURCES = [ filter-list [ glob hncore/cgcomm/*.cpp ] : [ glob hncore/cgcomm/client.cpp ] ] cgcomm_client ;
+
+local extra_deps ;
+if [ os.name ] != NT {
+	if Linux in [ modules.peek : JAMUNAME ] {
+		lib dl : : <name>dl ;
+		extra_deps = dl ;
+	}
+} else {
+	lib winsock : : <name>ws2_32 ;
+	extra_deps += winsock ;
+}
+
+exe hydranode-mono :
+	$(HNBASE_SOURCES)
+	$(HNCORE_SOURCES)
+	hncore/main.cpp
+	$(MOD_ED2K_SOURCES)
+	$(MOD_BT_SOURCES)
+	$(MOD_HTTP_SOURCES)
+	$(MOD_HNSH_SOURCES)
+	$(MOD_CGCOMM_SOURCES)
+	extra
+	extra/zlib
+	$(extra_deps)
+	: <define>BUILT_IN <define>BUILDING_HNBASE <define>BUILDING_HNCORE <define>STATIC_BUILD <link>static
+;
+exe bget-mono :
+	$(HNBASE_SOURCES)
+	$(HNCORE_SOURCES)
+	$(MOD_BT_SOURCES)
+	hncore/bt/bget.cpp
+	extra
+	extra/zlib
+	$(extra_deps)
+;
+exe httpget-mono :
+	$(HNBASE_SOURCES)
+	$(HNCORE_SOURCES)
+	$(MOD_HTTP_SOURCES)
+	hncore/http/httpget.cpp
+	extra
+	extra/zlib
+	$(extra_deps)
+;
+
+explicit hydranode-mono bget-mono httpget-mono bt_client cgcomm_client ;
+
+## --- Clean up
+
+local argv = [ modules.peek : ARGV ] ;
+if "clean" in $(argv) || "--clean" in $(argv) {
+	local rm ;
+	if [ os.name ] = NT {
+		rm = "del /S /Q" ;
+	} else {
+		rm = "rm -rf" ;
+	}
+
+	local root = [ path.native [ hn.project-root ] ] ;
+	root = $(root:J=" ") ;
+
+	SHELL "$(rm) \"$(root)/lib\"" ;
+	SHELL "$(rm) \"$(root)/bin\"" ;
+	SHELL "$(rm) \"$(root)/plugins\"" ;
+	SHELL "$(rm) \"$(root)/wrappers\"" ;
+}
+

@@ -1,0 +1,11 @@
+project fw : requirements <user-interface>gui ;
+
+exe fileviewer 
+	: fileviewer.ui fileviewer.cpp fileviewer.qrc 
+	  /qt4//QtGui ../../hnbase ../../hncore ../../extra 
+;
+
+stage stage : 
+	fileviewer ../../hnbase ../../hncore//hncore ../../extra
+	: <dll-path>lib
+;

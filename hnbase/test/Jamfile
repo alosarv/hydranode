@@ -1,0 +1,20 @@
+exe config : test-config.cpp ..//hnbase ../../extra ;
+exe event : test-event.cpp ..//hnbase ../../extra ;
+exe hash : test-hash.cpp ..//hnbase ../../extra ;
+exe log : test-log.cpp ..//hnbase ../../extra ;
+exe object : test-object.cpp ..//hnbase ../../extra ;
+exe range : test-range.cpp ../../extra/test ;
+exe resolver : test-resolver.cpp ..//hnbase ../../extra ;
+exe sockets : test-sockets.cpp ..//hnbase ../../extra ;
+exe ssocket : test-ssocket.cpp ..//hnbase ../../extra ;
+exe timed_callback : test-timed_callback.cpp ..//hnbase ../../extra ;
+exe utils : test-utils.cpp ..//hnbase ../../extra ;
+exe utils2 : test-utils2.cpp ..//hnbase ../../extra ../../extra/test ;
+exe utils3 : test-utils3.cpp ..//hnbase ../../extra ;
+exe speed : test-speed.cpp ..//hnbase ../../extra ;
+exe unchainptr : test-unchainptr.cpp ;
+
+stage bin
+	: config event hash log object range resolver sockets ssocket
+	  timed_callback utils utils2 utils3 speed
+	: <location>bin <hardcode-dll-paths>true ;

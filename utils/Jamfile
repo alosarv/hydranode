@@ -1,0 +1,13 @@
+import os ;
+import hn ;
+
+if [ os.name ] = NT {
+	lib winsock : : <name>ws2_32 ;
+	req += winsock ;
+}
+exe hlink : hlink.cpp $(req) ../extra : <user-interface>gui <toolset>msvc:<linkflags>/ENTRY:"mainCRTStartup" ;
+exe pfwd : pfwd.cpp $(req) ../hnbase//hnbase ../extra ;
+# exe parsebt : parsebt.cpp $(req) ;
+
+hn.install-bin hlink pfwd ;
+hn.install install-bin ;

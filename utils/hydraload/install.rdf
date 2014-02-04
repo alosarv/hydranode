@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+	<Description about="urn:mozilla:install-manifest">
+
+		<em:id>{c064b50f-25fe-4735-8e6a-c8d7d0673d84}</em:id>
+		<em:name>HydraLoad</em:name>
+		<em:version>0.2</em:version>
+		<em:description>Directly pastes links to Hydranode</em:description>
+		<em:creator>Gaubatz Patrick</em:creator>
+		<em:homepageURL>http://hydranode.com</em:homepageURL>
+		<em:iconURL>chrome://hydraload/skin/hydranode_small.gif</em:iconURL>
+		<em:aboutURL>chrome://hydraload/content/about.xul</em:aboutURL>
+		<em:optionsURL>chrome://hydraload/content/options.xul</em:optionsURL>
+		<em:updateURL></em:updateURL>
+		<em:file>
+			<Description about="urn:mozilla:extension:file:hydraload.jar">
+				<em:package>content/hydraload/</em:package>
+				<em:skin>skin/classic/hydraload/</em:skin>
+			</Description>
+		</em:file>
+
+		<em:targetApplication>
+			<Description>
+				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+				<em:minVersion>0.7</em:minVersion>
+				<em:maxVersion>1.5.0.*</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+
+	</Description>
+
+</RDF>

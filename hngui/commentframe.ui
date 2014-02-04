@@ -1,0 +1,124 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>CommentFrame</class>
+ <widget class="QWidget" name="CommentFrame" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>0</number>
+   </property>
+   <property name="spacing" >
+    <number>0</number>
+   </property>
+   <item row="0" column="0" >
+    <widget class="QFrame" name="commentHeaderF" >
+     <property name="maximumSize" >
+      <size>
+       <width>16777215</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>0</number>
+      </property>
+      <property name="spacing" >
+       <number>0</number>
+      </property>
+      <item row="0" column="2" >
+       <widget class="QToolButton" name="closeButton" >
+        <property name="text" >
+         <string>Close</string>
+        </property>
+        <property name="autoRaise" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="QLabel" name="commentHeader" >
+        <property name="minimumSize" >
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>Known file names and comments</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>5</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="CommentList" name="commentList" >
+     <property name="focusPolicy" >
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy" >
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="alternatingRowColors" >
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode" >
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="indentation" >
+      <number>12</number>
+     </property>
+     <property name="rootIsDecorated" >
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>CommentList</class>
+   <extends>QTreeWidget</extends>
+   <header>transfertabs.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

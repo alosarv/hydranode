@@ -1,0 +1,119 @@
+import hn ;
+import os ;
+
+DT_SOURCES =
+	boost_date_time/gregorian/date_generators
+	boost_date_time/gregorian/greg_month
+	boost_date_time/gregorian/gregorian_types
+	boost_date_time/gregorian/greg_weekday
+	boost_date_time/gregorian/gregorian_types
+	boost_date_time/posix_time/posix_time_types ;
+FS_SOURCES =
+	boost_filesystem/convenience
+	boost_filesystem/exception
+	boost_filesystem/operations_posix_windows
+	boost_filesystem/path_posix_windows ;
+PO_SOURCES =
+	boost_program_options/cmdline
+	boost_program_options/config_file
+	boost_program_options/convert
+	boost_program_options/options_description
+	boost_program_options/parsers
+	boost_program_options/positional_options
+	boost_program_options/utf8_codecvt_facet
+	boost_program_options/value_semantic
+	boost_program_options/variables_map ;
+SIG_SOURCES =
+	boost_signals/connection
+	boost_signals/named_slot_map
+	boost_signals/signal_base
+	boost_signals/slot
+	boost_signals/trackable ;
+THREAD_SOURCES =
+	boost_thread/barrier
+	boost_thread/condition
+	boost_thread/exceptions
+	boost_thread/mutex
+	boost_thread/once
+	boost_thread/recursive_mutex
+	boost_thread/thread
+	boost_thread/xtime
+	boost_thread/tss
+	boost_thread/tss_dll
+	boost_thread/tss_hooks
+	boost_thread/tss_null
+	boost_thread/tss_pe ;
+REGEX_SOURCES =
+	boost_regex/c_regex_traits
+	boost_regex/cpp_regex_traits
+	boost_regex/cregex
+	boost_regex/fileiter
+	boost_regex/icu
+	boost_regex/instances
+	boost_regex/posix_api
+	boost_regex/regex
+	boost_regex/regex_debug
+	boost_regex/regex_raw_buffer
+	boost_regex/regex_traits_defaults
+	boost_regex/static_mutex
+	boost_regex/usinstances
+	boost_regex/w32_regex_traits
+	boost_regex/wc_regex_traits
+	boost_regex/wide_posix_api
+	boost_regex/winstances
+;
+
+reqs = 	<include>$(BOOST_ROOT) 
+	<threading>multi 
+	<link>shared:<define>BOOST_ALL_DYN_LINK=1 
+	<define>BOOST_ALL_NO_LIB 
+	<define>_CRT_SECURE_NO_DEPRECATE <define>_SCL_SECURE_NO_DEPRECATE
+;
+
+project boost
+	: requirements $(reqs)
+;
+
+lib boost_date_time
+	: $(DT_SOURCES).cpp
+	: <define>DATE_TIME_INLINE
+	: : $(reqs)
+;
+
+lib boost_program_options
+	: $(PO_SOURCES).cpp
+	: : : $(reqs)
+;
+
+local fsconf ;
+if [ os.name ] = NT {
+	fsconf = <toolset>gcc:<link>static ;
+}
+
+lib boost_filesystem
+	: $(FS_SOURCES).cpp
+	: $(fsconf)
+	: : $(reqs)
+;
+lib boost_signals
+	: $(SIG_SOURCES).cpp
+	: : : $(reqs)
+;
+lib boost_thread
+	: $(THREAD_SOURCES).cpp
+	: <define>BOOST_THREAD_BUILD_DLL=1 <toolset>gcc:<cflags>-Wno-return-type <toolset>gcc:<cflags>-Wno-unused
+	: : $(reqs)
+;
+lib boost_regex
+	: $(REGEX_SOURCES).cpp
+	: : : $(reqs)
+;
+
+hn.install-libs boost_date_time
+		boost_program_options
+		boost_filesystem
+		boost_signals
+		boost_thread
+		boost_regex
+;
+hn.install install-libs ;

@@ -1,0 +1,334 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>SearchDetails</class>
+ <widget class="QWidget" name="SearchDetails" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>649</width>
+    <height>123</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>5</number>
+   </property>
+   <property name="spacing" >
+    <number>0</number>
+   </property>
+   <item rowspan="3" row="0" column="0" >
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="pixmap" >
+        <pixmap resource="gui.qrc" >:/icons/settings64.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2" >
+       <property name="maximumSize" >
+        <size>
+         <width>48</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="pixmap" >
+        <pixmap resource="gui.qrc" >:/icons/stars.png</pixmap>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="1" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>5</width>
+         <height>23</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3" >
+       <property name="text" >
+        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;span style=" font-weight:600;">Codec:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="codec" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_4" >
+       <property name="text" >
+        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;span style=" font-weight:600;">Bitrate:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="bitrate" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_5" >
+       <property name="text" >
+        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;span style=" font-weight:600;">Length:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="length" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>271</width>
+         <height>23</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="namesButton" >
+       <property name="text" >
+        <string>File Names</string>
+       </property>
+       <property name="autoRaise" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>5</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="destButton" >
+       <property name="maximumSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>...</string>
+       </property>
+       <property name="icon" >
+        <iconset resource="gui.qrc" >:/icons/getfile16.png</iconset>
+       </property>
+       <property name="autoRaise" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="dest" >
+       <property name="maximumSize" >
+        <size>
+         <width>130</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="fileName" >
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="cleanButton" >
+       <property name="text" >
+        <string>Cleanup</string>
+       </property>
+       <property name="autoRaise" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="downloadButton" >
+       <property name="text" >
+        <string>Download</string>
+       </property>
+       <property name="autoRaise" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="1" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>5</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_12" >
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="pixmap" >
+        <pixmap resource="gui.qrc" >:/toolbar/icons/settings16.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_9" >
+       <property name="text" >
+        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;span style=" font-weight:600;">Title:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="title" />
+     </item>
+     <item>
+      <widget class="QLabel" name="label_10" >
+       <property name="text" >
+        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;span style=" font-weight:600;">Artist:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="artist" />
+     </item>
+     <item>
+      <widget class="QLabel" name="label_11" >
+       <property name="text" >
+        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;span style=" font-weight:600;">Album:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="album" />
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton_3" >
+       <property name="text" >
+        <string>Set</string>
+       </property>
+       <property name="autoRaise" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources>
+  <include location="gui.qrc" />
+ </resources>
+ <connections/>
+</ui>

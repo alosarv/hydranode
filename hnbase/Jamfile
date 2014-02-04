@@ -1,0 +1,58 @@
+import hn ;
+
+project hnbase ;
+CPP_SOURCES =
+	config
+	eventbase
+	hash
+	hostinfo
+	log
+	ipv4addr
+	md4transform
+	md5transform
+	object
+	schedbase
+	sha1transform
+	signals
+	sockets
+	speedmeter
+	prefs
+	tsptrs
+	utils
+	upnp
+	timed_callback
+	workthread
+;
+
+import os ;
+local req ;
+local flags = <toolset>gcc:<cflags>-Wno-long-long ;
+if [ os.name ] = NT {
+	lib winsock : : <name>ws2_32 ;
+        req +=
+	  winsock
+	  ../extra//boost_date_time
+	  ../extra//boost_filesystem
+	  ../extra//boost_thread
+	  ../extra//boost_date_time
+	  ../extra//boost_signals
+	  ../extra//boost_regex
+	;
+} else {
+	if Darwin in [ modules.peek : JAMUNAME ] {
+		flags += <include>/Developer/Headers/FlatCarbon <framework>Carbon ;
+		req += ../extra ;
+	}
+}
+
+lib hnbase
+	: $(CPP_SOURCES).cpp
+	  $(req)
+	: $(flags) <define>BUILDING_HNBASE
+	:
+	: $(flags)
+;
+
+hn.install-libs hnbase ;
+hn.install-headers [ glob *.h ] ;
+hn.install install-libs install-headers ;

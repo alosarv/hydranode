@@ -1,0 +1,425 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>HomeContent</class>
+ <widget class="QWidget" name="HomeContent" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>604</width>
+    <height>459</height>
+   </rect>
+  </property>
+  <property name="sizeHint" stdset="0" >
+   <size>
+    <width>463</width>
+    <height>370</height>
+   </size>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>0</number>
+   </property>
+   <property name="spacing" >
+    <number>0</number>
+   </property>
+   <item row="0" column="0" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="0" column="0" >
+      <widget class="QFrame" name="newsFeedFrame" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>5</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>2</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>0</number>
+        </property>
+        <item row="1" column="0" >
+         <widget class="NewsFeed" name="newsFeed" >
+          <property name="frameShape" >
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="verticalScrollBarPolicy" >
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <widget class="NewsHeader" name="newsHeader" >
+          <property name="sizePolicy" >
+           <sizepolicy>
+            <hsizetype>1</hsizetype>
+            <vsizetype>1</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="frameShape" >
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow" >
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>0</number>
+           </property>
+           <item row="0" column="0" colspan="2" >
+            <widget class="QLabel" name="newsTitle" >
+             <property name="sizePolicy" >
+              <sizepolicy>
+               <hsizetype>5</hsizetype>
+               <vsizetype>5</vsizetype>
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize" >
+              <size>
+               <width>0</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize" >
+              <size>
+               <width>16777215</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="text" >
+              <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">Latest News&lt;/p>&lt;/body>&lt;/html></string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="0" >
+      <widget class="QFrame" name="devFeedFrame" >
+       <property name="maximumSize" >
+        <size>
+         <width>16777215</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>0</number>
+        </property>
+        <item row="1" column="0" >
+         <widget class="NewsFeed" name="devFeed" >
+          <property name="sizePolicy" >
+           <sizepolicy>
+            <hsizetype>13</hsizetype>
+            <vsizetype>13</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize" >
+           <size>
+            <width>0</width>
+            <height>95</height>
+           </size>
+          </property>
+          <property name="frameShape" >
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="verticalScrollBarPolicy" >
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <widget class="NewsHeader" name="devNewsHeader" >
+          <property name="frameShape" >
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="frameShadow" >
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QGridLayout" >
+           <property name="margin" >
+            <number>0</number>
+           </property>
+           <property name="spacing" >
+            <number>0</number>
+           </property>
+           <item row="0" column="0" >
+            <widget class="QLabel" name="devTitle" >
+             <property name="minimumSize" >
+              <size>
+               <width>0</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="maximumSize" >
+              <size>
+               <width>16777215</width>
+               <height>18</height>
+              </size>
+             </property>
+             <property name="text" >
+              <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">Latest News from Hydranode Development&lt;/p>&lt;/body>&lt;/html></string>
+             </property>
+             <property name="alignment" >
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="margin" >
+              <number>-2</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item rowspan="2" row="0" column="1" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="myHydraFrame" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>4</hsizetype>
+           <vsizetype>5</vsizetype>
+           <horstretch>1</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize" >
+          <size>
+           <width>195</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape" >
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow" >
+          <enum>QFrame::Plain</enum>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>0</number>
+          </property>
+          <property name="spacing" >
+           <number>0</number>
+          </property>
+          <item row="0" column="0" >
+           <widget class="MyHydraHeader" name="myHydraHeader" >
+            <property name="frameShape" >
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow" >
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" >
+             <property name="margin" >
+              <number>0</number>
+             </property>
+             <property name="spacing" >
+              <number>0</number>
+             </property>
+             <item row="0" column="0" >
+              <widget class="QLabel" name="label_4" >
+               <property name="minimumSize" >
+                <size>
+                 <width>0</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="maximumSize" >
+                <size>
+                 <width>16777215</width>
+                 <height>18</height>
+                </size>
+               </property>
+               <property name="text" >
+                <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">My Hydranode&lt;/p>&lt;/body>&lt;/html></string>
+               </property>
+               <property name="alignment" >
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="margin" >
+                <number>-2</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="2" column="0" >
+           <widget class="MyHydra" name="myHydra" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>3</hsizetype>
+              <vsizetype>3</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="frameShape" >
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="verticalScrollBarPolicy" >
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy" >
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="StatGraph" name="statGraph" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>3</hsizetype>
+              <vsizetype>3</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize" >
+             <size>
+              <width>16</width>
+              <height>78</height>
+             </size>
+            </property>
+            <property name="maximumSize" >
+             <size>
+              <width>16777215</width>
+              <height>78</height>
+             </size>
+            </property>
+            <property name="frameShape" >
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow" >
+             <enum>QFrame::Raised</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>4</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:Sans Serif; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg; font-size:8pt;">&lt;span style=" font-weight:600; color:#cd5c5c;">Support Hydranode Development&lt;/span>&lt;/p>&lt;p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg; font-size:8pt; font-weight:600; color:#cd5c5c;">Donate&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="margin" >
+          <number>-2</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>MyHydra</class>
+   <extends>QTextBrowser</extends>
+   <header>myhydra.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>MyHydraHeader</class>
+   <extends>QFrame</extends>
+   <header>hometabs.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>NewsHeader</class>
+   <extends>QFrame</extends>
+   <header>hometabs.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>NewsFeed</class>
+   <extends>QTextBrowser</extends>
+   <header>newsfeed.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>StatGraph</class>
+   <extends>QFrame</extends>
+   <header>myhydra.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="gui.qrc" />
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,8 @@
+exe bencoder : test-bencoder.cpp ../bencoder.cpp ;
+exe torrentinfo
+	: test-torrentinfo.cpp ../torrentinfo.cpp
+	  ../../../hnbase
+	  ../../../extra
+	: <define>BOOST_SPIRIT_DEBUG
+;
+stage bin : bencoder torrentinfo : <location>bin <hardcode-dll-paths>true ;

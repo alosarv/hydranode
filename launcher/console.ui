@@ -1,0 +1,497 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>Console</class>
+ <widget class="QMainWindow" name="Console" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1041</width>
+    <height>863</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Hydranode console</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset resource="launcher.qrc" >:/logo/hydranode.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget" >
+   <layout class="QGridLayout" >
+    <property name="margin" >
+     <number>8</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item row="0" column="0" >
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>0</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="ConsoleWnd" name="outWnd" >
+        <property name="focusPolicy" >
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="frameShape" >
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow" >
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="verticalScrollBarPolicy" >
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="autoFormatting" >
+         <set>QTextEdit::AutoNone</set>
+        </property>
+        <property name="readOnly" >
+         <bool>true</bool>
+        </property>
+        <property name="html" >
+         <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;/p>&lt;/body>&lt;/html></string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="SearchList" name="searchList" >
+        <property name="frameShadow" >
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="verticalScrollBarPolicy" >
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="alternatingRowColors" >
+         <bool>true</bool>
+        </property>
+        <property name="columnCount" >
+         <number>3</number>
+        </property>
+        <property name="sortingEnabled" >
+         <bool>true</bool>
+        </property>
+        <column>
+         <property name="text" >
+          <string>0</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>1</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>2</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <widget class="DownloadList" name="downloadList" >
+        <property name="frameShadow" >
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="verticalScrollBarPolicy" >
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="alternatingRowColors" >
+         <bool>true</bool>
+        </property>
+        <property name="columnCount" >
+         <number>4</number>
+        </property>
+        <property name="sortingEnabled" >
+         <bool>true</bool>
+        </property>
+        <column>
+         <property name="text" >
+          <string>0</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>1</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>2</string>
+         </property>
+        </column>
+        <column>
+         <property name="text" >
+          <string>3</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="searchBar" >
+        <property name="frameShape" >
+         <enum>QFrame::Panel</enum>
+        </property>
+        <property name="frameShadow" >
+         <enum>QFrame::Plain</enum>
+        </property>
+        <layout class="QGridLayout" >
+         <property name="margin" >
+          <number>8</number>
+         </property>
+         <property name="spacing" >
+          <number>6</number>
+         </property>
+         <item row="0" column="7" >
+          <widget class="QToolButton" name="typeArchive" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Enables searching for compressed files (rar, zip, bz2)&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="text" >
+            <string>A&amp;rchive</string>
+           </property>
+           <property name="checkable" >
+            <bool>true</bool>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="11" >
+          <widget class="QToolButton" name="resultsButton" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Displays most recent search results.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="text" >
+            <string>R&amp;esults</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" >
+          <widget class="QToolButton" name="searchButton" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Starts new search, based on specified keywords and type criteria.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="text" >
+            <string>Go</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="9" >
+          <widget class="QToolButton" name="typeDocument" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Enables searching for documents (doc, txt)&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="text" >
+            <string>D&amp;ocument</string>
+           </property>
+           <property name="checkable" >
+            <bool>true</bool>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5" >
+          <widget class="QToolButton" name="typeVideo" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Enables searching for video files (avi, mpeg, wmv)&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="text" >
+            <string>&amp;Video</string>
+           </property>
+           <property name="checkable" >
+            <bool>true</bool>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="10" >
+          <widget class="QToolButton" name="typePicture" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Enables seaching for pictures (jpg, png, gif)&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="text" >
+            <string>Pic&amp;ture</string>
+           </property>
+           <property name="checkable" >
+            <bool>true</bool>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4" >
+          <widget class="QToolButton" name="typeAudio" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Enables searching for audio files (mp3, wma, ogg)&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="text" >
+            <string>&amp;Audio</string>
+           </property>
+           <property name="checkable" >
+            <bool>true</bool>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="8" >
+          <widget class="QToolButton" name="typeProgram" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Enables searching for applications (exe)&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="text" >
+            <string>&amp;Program</string>
+           </property>
+           <property name="checkable" >
+            <bool>true</bool>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" >
+          <widget class="QLineEdit" name="searchBox" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Enter search keywords here, and press &lt;/span>&lt;span style=&quot; font-weight:600; color:#000000;&quot;>go&lt;/span>&lt;span style=&quot; color:#000000;&quot;> button to start the search. &lt;/span>&lt;/p>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#000000;&quot;>Narrow down the search by specifying file types to be searched for.&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="6" >
+          <widget class="QToolButton" name="typeCD" >
+           <property name="toolTip" >
+            <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; color:#000000;&quot;>Enables searching for CD and DVD images (files ending with .iso, .bin, .nrg).&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+           </property>
+           <property name="text" >
+            <string>&amp;CD/DVD</string>
+           </property>
+           <property name="checkable" >
+            <bool>true</bool>
+           </property>
+           <property name="autoRaise" >
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="input" >
+          <property name="font" >
+           <font>
+            <family>Terminal</family>
+            <pointsize>9</pointsize>
+            <weight>50</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+            <underline>false</underline>
+            <strikeout>false</strikeout>
+           </font>
+          </property>
+          <property name="toolTip" >
+           <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:Terminal; font-weight:400; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; font-family:MS Shell Dlg; font-size:8.25pt; color:#000000;&quot;>Enter commands here. Type &lt;/span>&lt;span style=&quot; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:600; color:#000000;&quot;>help&lt;/span>&lt;span style=&quot; font-family:MS Shell Dlg; font-size:8.25pt; color:#000000;&quot;> to receive list of supported commands.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toggleSearch" >
+          <property name="font" >
+           <font>
+            <family>MS Shell Dlg</family>
+            <pointsize>8</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+            <underline>false</underline>
+            <strikeout>false</strikeout>
+           </font>
+          </property>
+          <property name="toolTip" >
+           <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:600; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; font-size:8.25pt; font-weight:400; color:#000000;&quot;>Toggles the Search bar.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+          </property>
+          <property name="text" >
+           <string>&amp;Search</string>
+          </property>
+          <property name="checkable" >
+           <bool>true</bool>
+          </property>
+          <property name="autoRaise" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toggleDownload" >
+          <property name="font" >
+           <font>
+            <family>MS Shell Dlg</family>
+            <pointsize>8</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+            <underline>false</underline>
+            <strikeout>false</strikeout>
+           </font>
+          </property>
+          <property name="toolTip" >
+           <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:600; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; font-weight:400; color:#000000;&quot;>Displays current pending downloads.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+          </property>
+          <property name="text" >
+           <string>&amp;Download</string>
+          </property>
+          <property name="checkable" >
+           <bool>true</bool>
+          </property>
+          <property name="autoRaise" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="viewIncoming" >
+          <property name="font" >
+           <font>
+            <family>MS Shell Dlg</family>
+            <pointsize>8</pointsize>
+            <weight>75</weight>
+            <italic>false</italic>
+            <bold>true</bold>
+            <underline>false</underline>
+            <strikeout>false</strikeout>
+           </font>
+          </property>
+          <property name="toolTip" >
+           <string>&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;/head>&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg; font-weight:600; font-style:normal; text-decoration:none;&quot;>&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;>&lt;span style=&quot; font-size:8.25pt; font-weight:400; color:#000000;&quot;>Opens incoming files folder.&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+          </property>
+          <property name="text" >
+           <string>&amp;Incoming</string>
+          </property>
+          <property name="autoRaise" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="0" margin="0" />
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>SearchList</class>
+   <extends>QTreeWidget</extends>
+   <header>searchlist.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>DownloadList</class>
+   <extends>QTreeWidget</extends>
+   <header>downloadlist.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>ConsoleWnd</class>
+   <extends>QTextEdit</extends>
+   <header>consolewnd.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>input</tabstop>
+  <tabstop>searchBox</tabstop>
+  <tabstop>searchButton</tabstop>
+  <tabstop>typeAudio</tabstop>
+  <tabstop>typeVideo</tabstop>
+  <tabstop>typeCD</tabstop>
+  <tabstop>typeArchive</tabstop>
+  <tabstop>typeProgram</tabstop>
+  <tabstop>typeDocument</tabstop>
+  <tabstop>typePicture</tabstop>
+  <tabstop>resultsButton</tabstop>
+  <tabstop>toggleSearch</tabstop>
+  <tabstop>toggleDownload</tabstop>
+  <tabstop>viewIncoming</tabstop>
+ </tabstops>
+ <resources>
+  <include location="launcher.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>searchBox</sender>
+   <signal>returnPressed()</signal>
+   <receiver>searchButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>196</x>
+     <y>744</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>518</x>
+     <y>742</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toggleSearch</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>searchBar</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>956</x>
+     <y>778</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>703</x>
+     <y>737</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toggleSearch</sender>
+   <signal>released()</signal>
+   <receiver>searchList</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>956</x>
+     <y>778</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>520</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,21 @@
+path-constant HN_ROOT : . ;
+path-constant HN_INCLUDE : . ;
+
+import toolset : using ;
+import os ;
+import toolset ;
+# import msvc-config ;
+if [ os.name ] = NT {
+	using gcc ;
+	using msvc ;
+#	using msvc : 8.0 : "C:\\Program Files\\Microsoft Visual Studio 8\\\VC\\bin\\cl.exe" ;
+	toolset.using qt4 ;
+} else {
+	toolset.using qt4 : /usr/local/Trolltech/Qt-4.1.1 ;
+	if Darwin in [ modules.peek : JAMUNAME ] {
+		import darwin ;
+		toolset.using darwin ;
+	} else {
+		using gcc ;
+	}
+}

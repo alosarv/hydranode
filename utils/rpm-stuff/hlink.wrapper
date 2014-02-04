@@ -1,0 +1,7 @@
+#!/bin/sh
+# 
+# Small wrapper script for hlink to set the working dir. Needed for 0.1.2 currently
+#
+cd /opt/hydranode
+bin/hlink $*
+

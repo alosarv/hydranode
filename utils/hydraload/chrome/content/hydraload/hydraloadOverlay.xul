@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<overlay id="hydraloadOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	// This imports our javascript.
+	<script type="application/x-javascript" src="chrome://hydraload/content/hydraloadOverlay.js"></script>
+
+	// This is for the right click menu.
+	<popup id="contentAreaContextMenu">
+		<menuitem id="hydraload" 
+			  label="Download with Hydranode..." 
+			  accesskey="H" 
+			  insertafter="context-stop" 
+			  oncommand="tryDownload();" />
+	</popup>	
+
+</overlay>
+

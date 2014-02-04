@@ -1,0 +1,8 @@
+#!/bin/sh
+# Wrapper script for the hydranode binary
+#
+
+libs="{@LIBDIR@}"
+bin="{@BINDIR@}"
+
+LDPATH="${libs}" exec "${bin}/hydranode" $*

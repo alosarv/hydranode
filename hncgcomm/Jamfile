@@ -1,0 +1,11 @@
+project hncgcomm ;
+SOURCES = cgcomm ;
+lib hncgcomm : $(SOURCES).cpp ;
+
+import os ;
+if [ os.name ] = NT {
+	stage stage : hncgcomm : <location>.. ;
+} else {
+	stage stage : hncgcomm : <location>../lib ;
+}
+

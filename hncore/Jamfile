@@ -1,0 +1,61 @@
+import regex ;
+import path ;
+import os ;
+import hn ;
+
+rule escape-for-c ( string ) {
+	return [ regex.escape $(string) : "\\\\'\"" : "\\" ] ;
+}
+
+project hncore ;
+
+CPP_SOURCES =
+	baseclient
+	clientmanager
+	fileslist
+	hasher
+	hashsetmaker
+	hydranode
+	iothread
+	ipfilter
+	metadata
+	metadb
+	modules
+	partdata
+	search
+	sharedfile
+;
+
+local deps ;
+if [ os.name ] = NT {
+	deps = ../extra ../hnbase ;
+} else {
+	if Darwin in [ modules.peek : JAMUNAME ] {
+		deps = ../extra ../hnbase ;
+	}
+}
+
+local plugin-dir = [ escape-for-c [ path.native [ hn.plugin-locate ] ] ] ;
+lib hncore
+	: $(CPP_SOURCES).cpp $(deps)
+	: <define>BUILDING_HNCORE
+	  <define>MODULE_DIR="\"\\\"$(plugin-dir)\\\"\""
+;
+
+local extra_deps ;
+if [ os.name ] != NT {
+	if Linux in [ modules.peek : JAMUNAME ] {
+		lib dl : : <name>dl ;
+		extra_deps = dl ;
+	}
+}
+
+exe hydranode
+	: main.cpp ../extra ../hnbase hncore $(extra_deps)
+	: <dll-path>../lib
+;
+
+hn.install-bin hydranode ;
+hn.install-libs hncore ;
+hn.install-headers [ glob *.h ] ;
+hn.install install-bin install-libs install-headers ;

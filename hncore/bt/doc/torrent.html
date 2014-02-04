@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <style type="text/css">
+h3 { font-size: 150%; margin-bottom: 0.3em; margin-top: 0em }
+h4 { font-size: 110%; margin-bottom: 0.3em; margin-top: 0em }
+h5 { font-size: 105%; margin-bottom: 0.3em; margin-left: 1em; margin-top: 0em }
+  </style>
+</head>
+<body style="margin-left: 8%; margin-right: 8%;">
+<p style="float: right;"><b><small>Alo Sarv</small></b><small><br>
+August, 2005</small></p>
+<center>
+<h3>Bittorrent Module Design</h3>
+</center>
+<p style="border: 1px solid green; padding: 5px;"><img
+ src="torrentfiles.png"></p>
+<p>Manager is a Singleton class, which owns Torrent objects, and keeps
+a map of them, keyed by info_hash value, which is unique to every
+torrent. Manager class also
+controls incoming connections listener, and accepts connections from
+it. Upon accepting
+an incoming connection, it constructs a Client object, and attaches the
+newly connected
+socket to the Client. The Client object will be owned by Manager class
+for the time
+being.</p>
+<p>Once the newly-created Client object receives handshake, it emits
+handshakeReceived
+signal, which Manager will handle. Based on the info_hash value
+received in the
+handshake, Manager will attach the client to an existing Torrent, or
+drop the client
+if no torrent with the specified info_hash could be found. After
+attaching the client
+to an existing Torrent object, Manager also transfers ownership of the
+object to the
+Torrent object.</p>
+<p>Notice that differently from other p2p networks, in Bittorrent it is
+not needed
+to keep disconnected Client objects alive, so there is no need for
+"merging" system,
+as implemented in eDonkey2000 plugin. All incoming clients trigger a
+new Client object
+being constructed, and once a Client loses it's underlying TCP
+connection, it must
+immediately be destroyed (most likely implementation would be a
+connectionLost signal
+being emitted), so whoever owns the object at the moment will destroy
+it.</p>
+<h4>Starting new torrent downloads</h4>
+<p>In Bittorrent, a single download often consists of many files, which
+form a bigger
+package. On protocol level, there is no "file" concept at all, and all
+data in the
+torrent is handled as single long stream. The client is responsible for
+keeping track
+of which file what data range belongs to, and for the construction of
+the final concrete
+files.</p>
+<p>In Hydranode, this means that a TorrentFile object is-a wrapper
+around one-to-many
+SharedFile objects, and directs IO calls to the specific SharedFile
+object which corresponds to the right file. Likewise, PartialTorrent
+object is-a wrapper around
+PartData object, keeping a offset-keyed map of sub-objects of type
+PartData, and forwards the required functions to the concrete PartData
+objects.</p>
+<p>Since TorrentFile and PartialTorrent objects are derived classes
+from SharedFile and
+PartData, respectivly, they cannot be constructed by FilesList on
+applications startup.
+Hence, they must be constructed by Bittorrent module during it's
+startup. Most likely
+implementation would be to keep a copy of the corresponding .torrent
+file in configuration directory, and re-construct the
+TorrentFile/PartialTorrent objects from
+that.</p>
+<h4>Hashing</h4>
+<p>Since Bittorrent protocol has no concept of files, chunk hashes can
+cross file
+boundaries. Hydranode hashing engine, however, doesn't support it by
+default, hence
+the HashWork class must also be customized to support this kind of
+behaviour. To this,
+the needed virtual functions will be overridden, to allow data
+verification across
+multiple files.</p>
+<h4>Protocol overview</h4>
+<p>There are many proper Bittorrent protocol specifications available
+on the internet,
+most useful ones being the <a
+ href="http://www.bittorrent.com/protocol.html">official
+specification</a> and a wiki-based <a
+ href="http://wiki.theory.org/BitTorrentSpecification">unofficial
+specfication</a>.
+As such, the entire protocol specification is beyond the scope of this
+document; instead,
+we will only go briefly over the details here.</p>
+<h5>Bencoding</h5>
+<p>The metainfo file (.torrent file), as well as Tracker responses in
+Client &lt;-&gt; Tracker
+communication are bencoded. Four data types are specified (in <a
+ href="http://www.boost.org/libs/spirit/index.html">Boost.Spirit</a>
+grammar notification):</p>
+<pre><b>Integers:</b>     'i' &gt;&gt; int_p &gt;&gt; 'e'<br><b>Strings:</b>      int_p[assign_a(tmp)] &gt;&gt; ':' &gt;&gt; repeat_p(boost::ref(tmp))[anychar_p]<br><b>Lists:</b>        'l' &gt;&gt; *(Integer | String | List | Dict) &gt;&gt; 'e'<br><b>Dictionaries:</b> 'd' &gt;&gt; *(String &gt;&gt; (Integer | String | List | Dict)) &gt;&gt; 'e'<br></pre>
+<h5>Client &lt;-&gt; Tracker communication</h5>
+<p>Client initializes the communication by establishing a TCP
+connection with the tracker, at the specified IP / Port indicated in
+the MetaInfo file. Upon a successful
+connection, Client sends a HTTP request with the following structure:</p>
+<pre>GET /%1%?info_hash=%2%&amp;peer_id=%3%&amp;port=%4%&amp;uploaded=%5%&amp;downloaded=%6%&amp;left=%7%&amp;event=%8%compact=%9% HTTP/1.1<br>Connection: close<br>Host: %10%:%11%<br><br></pre>
+<p>The arguments to GET request are as follows:</p>
+<pre><b>%1%</b>   Announce URL path, e.g. "/announce" for http://tracker.url/announce<br><b>%2%</b>   SHA1 hash of the info dictionary (bencoded form) of the MetaInfo file (urlencoded)<br><b>%3%</b>   ID of the Client (20 bytes) (may be url-encoded)<br><b>%4%</b>   Port where the Client has a TCP listener socket for incoming connections<br><b>%5%</b>   Amount of data the Client has already uploaded this torrent<br><b>%6%</b>   Amount of data the Client has already downloaded from this torrent<br><b>%7%</b>   How much data he Client still needs to complete the Torrent<br><b>%8%</b>   One of "started", "stopped" or "completed"<br><span
+ style="font-weight: bold;">%9%</span>   Whether the client understands compact peer list (some modern trackers require this already)<br><b>%10%</b>  Host of the tracker<br><b>%11%</b>  Port of the tracker</pre>
+<p>Notice that the info_hash key, as well as (possibly) the peer_id key
+must be URL-encoded, e.g. all characters not in the set <i>0-9 a-z A-Z
+$-_+!*'()</i> must be
+replaced with % followed by hexadecimal notation of the character.</p>
+<p><i>Implementors note: When the hexadecimal value of the character is
+less than 16,
+it must be preceeded with '0' character - many trackers expect
+two-digit hexadecimal
+numbers in all cases.</i><br>
+<br>
+Tracker responds with a standard HTTP response, where data part
+contains a bencoded
+dictionary with a set of the following keys: "failure reason", "warning
+message",
+"interval", "min interval", "tracker id", "complete", "incomplete",
+"peers". The latter
+is a list of dictionaries with the following keys: "peer id", "ip",
+"port", or in case of compact list, a bencoded string with content
+being 4+2-byte value pairs (binary). The first 4 bytes in each pair
+represent the ip address of the client, the latter the port.<br>
+</p>
+<h5>Client &lt;-&gt; Client communication</h5>
+<p>Client &lt;-&gt; Client communication is done over TCP connection;
+messages can be sent
+in both direction, and look identical in both ways. Packet header:</p>
+<pre>+--------+--------+--------+--------+--------+--------+-------<br>|           packet length           |   id   |   payload<br>+--------+--------+--------+--------+--------+--------+-------<br></pre>
+<p>All integer values in the protocol are 4 bytes, in big-endian
+ordering. Payload is length -1 bytes long (e.g. packet id is also
+considered when calculating
+packet length). The following packets are currently being used in the
+official
+protocol:
+</p>
+<pre><b>keep-alive:</b>     length = 0, no ID / payload parts<br><b>choke:</b>          ID = 0, no payload<br><b>unchoke:</b>        ID = 1, no payload<br><b>interested:</b>     ID = 2, no payload<br><b>not interested:</b> ID = 3, no payload<br><b>have:</b>           ID = 4, &lt;index&gt;<br><b>bitfield:</b>       ID = 5, set of bits indicating which chunks the client has<br><b>request:</b>        ID = 6, &lt;index&gt;&lt;begin&gt;&lt;length&gt;<br><b>piece:</b>          ID = 7, &lt;index&gt;&lt;begin&gt;&lt;data&gt;<br><b>cancel:</b>         ID = 8, &lt;index&gt;&lt;begin&gt;&lt;length&gt;<br></pre>
+<br>
+<br>
+<center><small>Copyright &copy; 2005 Alo Sarv</small></center>
+</body>
+</html>

@@ -1,0 +1,100 @@
+# (c) 2005 Lorenz Bauer
+# Released under the GPLv2
+
+# This file provides a new wrapper filetype, which allows us to fill variables
+# into template files from Jamfiles.
+# Take a look at utils/wrappers/Jamfile for an example.
+# The code is heavily 'inspired' by João Abecasis' quickbook.jam.
+
+import generators ;
+import "class" : new ;
+import feature ;
+import toolset ;
+import type ;
+
+type.register WRAPPER : wrapper ;
+
+feature.feature <compiler-binary> : : free ;
+feature.feature <compiler-dependencies> : : free dependency ;
+feature.feature <variable> : : free ;
+
+# This custom generator adds the wrapper-compiler as a dependency for the
+# project, thus automagically building it when needed.
+class wrapper-binary-generator : generator
+{
+	import targets hn path ;
+
+	rule run ( project name ? : property-set : sources * : multiple ? ) {
+		local project-root = [ hn.project-root ] ;
+		local wrapperc-dir = [
+			# This is the path where we look for our compiler
+			path.make $(project-root)/utils/wrappers
+		] ;
+
+		local compiler-target = [
+				targets.resolve-reference $(wrapperc-dir) :
+				$(project)
+		] ;
+		compiler-target = [
+			$(compiler-target[1]).main-target wrapper-compiler
+		] ;
+
+		# Get dependencies that our compiler has
+		compiler-dependencies = [
+			$(compiler-target).generate $(property-set)
+		] ;
+
+		# Ignore usage-requirements returned as first element.
+		compiler-dependencies = $(compiler-dependencies[2-]) ;
+
+		# Find the path of our compiler binary
+		local compiler-binary ;
+		for local target in $(compiler-dependencies)
+		{
+			if [ $(target).type ] = EXE
+			{
+				compiler-binary = [
+					path.native [
+						path.join
+							[ $(target).path ]
+							[ $(target).name ]
+					]
+				] ;
+			}
+		}
+
+		# Add compiler target and dependencies to our current project.
+		property-set = [ $(property-set).add-raw
+			<dependency>$(compiler-dependencies)
+			<compiler-binary>$(compiler-binary)
+			<compiler-dependencies>$(compiler-dependencies)
+		] ;
+
+		# Let the standard generator handle the real work.
+		return [
+			generator.run $(project) $(name)
+				: $(property-set)
+				: $(sources)
+				: $(multiple)
+		] ;
+	}
+}
+
+generators.register [
+	new wrapper-binary-generator wrapper.template-to-script : WRAPPER : EXE
+] ;
+
+toolset.flags wrapper.template-to-script COMPILER     <compiler-binary> ;
+toolset.flags wrapper.template-to-script DEPENDENCIES <compiler-dependencies> ;
+toolset.flags wrapper.template-to-script VARS         <variable> ;
+
+# Workaround
+rule template-to-script ( target : source : properties * )
+{
+    DEPENDS $(target) : [ on $(target) return $(DEPENDENCIES) ] ;
+}
+
+actions template-to-script
+{
+	$(COMPILER) $(2) $(1) $(VARS) ;
+}

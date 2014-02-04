@@ -1,0 +1,107 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>CatDialog</class>
+ <widget class="QWidget" name="CatDialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>131</width>
+    <height>25</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>0</number>
+   </property>
+   <property name="spacing" >
+    <number>0</number>
+   </property>
+   <item row="0" column="0" >
+    <widget class="QLineEdit" name="catName" />
+   </item>
+   <item row="0" column="1" >
+    <widget class="QToolButton" name="okButton" >
+     <property name="text" >
+      <string>Ok</string>
+     </property>
+     <property name="autoRaise" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2" >
+    <widget class="QToolButton" name="cancelButton" >
+     <property name="text" >
+      <string>Cancel</string>
+     </property>
+     <property name="icon" >
+      <iconset resource="gui.qrc" >:/transfer/icons/cancel16.png</iconset>
+     </property>
+     <property name="autoRaise" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources>
+  <include location="gui.qrc" />
+ </resources>
+ <connections>
+  <connection>
+   <sender>catName</sender>
+   <signal>returnPressed()</signal>
+   <receiver>okButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>227</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>244</x>
+     <y>23</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>okButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CatDialog</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>244</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>244</x>
+     <y>25</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CatDialog</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>266</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>267</x>
+     <y>25</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

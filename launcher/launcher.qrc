@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/background" >
+        <file>background.png</file>
+    </qresource>
+    <qresource prefix="/icons" >
+        <file>progressicon.png</file>
+        <file>progressicon1.png</file>
+    </qresource>
+    <qresource prefix="/logo" >
+        <file>hydranode.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,25 @@
+HTTP Module:
+
+Provides support for the HyperText Transfer Protocol (HTTP).
+Currently in a quite usable condition, the code can be found at:
+http://dev.hydranode.com/browser/hydranode/hncore/http
+
+Supports:
+ * HTTP/1.0 protocol
+ * pausing/resuming downloads (if server supports file-ranges too...)
+ * segmented downloading via 'addsource <num> <link>' command in hnsh
+ * automatic aquiring of:
+   * new download sources (and even FTP-links) via www.filemirrors.com
+   * file hashes (e.g. fetching files like: .md5, .sha1, MD5SUM, SHA1SUM, ...)
+   * .torrent files (for multi-network-downloads)
+
+Config options:
+ * SearchMirrors:
+   * possible values: true/false
+   * function: if set to true new file mirror will be searched automatically
+ * SearchHashes:
+   * possible values: true/false
+   * function: if set to true file hashes will be searched
+ * MaxSegments:
+   * possible values: integer (0, 1, 2, ...)
+   * function: this adjusts the number of file mirrors that will be added to the download at maximum

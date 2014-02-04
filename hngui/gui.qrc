@@ -1,0 +1,62 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>icons/backbutton.png</file>
+        <file>icons/bluebar.png</file>
+        <file>icons/cyanbar.png</file>
+        <file>icons/getfile16.png</file>
+        <file>icons/greenbar.png</file>
+        <file>icons/ironbar.png</file>
+        <file>icons/percback.png</file>
+        <file>icons/progressicon.png</file>
+        <file>icons/redbar.png</file>
+        <file>icons/settings64.png</file>
+        <file>icons/silverbar.png</file>
+        <file>icons/stars.png</file>
+        <file>icons/yellowbar.png</file>
+    </qresource>
+    <qresource prefix="/backgrounds" >
+        <file>backgrounds/default.png</file>
+        <file>backgrounds/downbar.png</file>
+        <file>backgrounds/myhydrabar.png</file>
+        <file>backgrounds/newsbar.png</file>
+    </qresource>
+    <qresource prefix="/home" >
+        <file>icons/rss.png</file>
+    </qresource>
+    <qresource prefix="/large" >
+        <file>icons/assoc64.png</file>
+        <file>icons/general64.png</file>
+        <file>icons/networking64.png</file>
+        <file>icons/ui64.png</file>
+    </qresource>
+    <qresource prefix="/networks" >
+        <file>icons/donkey16.png</file>
+    </qresource>
+    <qresource prefix="/toolbar" >
+        <file>icons/home16.png</file>
+        <file>icons/library16.png</file>
+        <file>icons/search16.png</file>
+        <file>icons/settings16.png</file>
+        <file>icons/transfer16.png</file>
+    </qresource>
+    <qresource prefix="/transfer" >
+        <file>icons/cancel16.png</file>
+        <file>icons/clear16.png</file>
+        <file>icons/filter16.png</file>
+        <file>icons/pause16.png</file>
+        <file>icons/resume16.png</file>
+        <file>icons/stop16.png</file>
+    </qresource>
+    <qresource prefix="/types" >
+        <file>icons/archive16.png</file>
+        <file>icons/cd-dvd16.png</file>
+        <file>icons/image16.png</file>
+        <file>icons/miinus16.png</file>
+        <file>icons/movie16.png</file>
+        <file>icons/pluss16.png</file>
+        <file>icons/program16.png</file>
+        <file>icons/scroll16.png</file>
+        <file>icons/soundfile16.png</file>
+        <file>icons/unknown.png</file>
+    </qresource>
+</RCC>

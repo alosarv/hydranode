@@ -1,0 +1,10 @@
+project hydranode ;
+
+# path-global BOOST_ROOT : c:\\boost
+# path-global BOOST_INCLUDE : c:\\boost\\include\\boost-1_32 ;
+
+# path-global HN_ROOT : . ;
+path-global HN_INCLUDE : $(HN_ROOT)/include ;
+
+# The current version of Boost.
+# BOOST_VERSION ?= 1.32.0 ;

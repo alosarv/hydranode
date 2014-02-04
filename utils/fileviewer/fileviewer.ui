@@ -1,0 +1,75 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Hydranode MetaDatabase viewer</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset resource="fileviewer" >:/icon/hydranode.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget" >
+   <layout class="QGridLayout" >
+    <property name="margin" >
+     <number>8</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item row="0" column="0" >
+     <widget class="QTreeWidget" name="outWnd" >
+      <property name="alternatingRowColors" >
+       <bool>true</bool>
+      </property>
+      <property name="indentation" >
+       <number>0</number>
+      </property>
+      <property name="rootIsDecorated" >
+       <bool>false</bool>
+      </property>
+      <property name="itemsExpandable" >
+       <bool>false</bool>
+      </property>
+      <property name="columnCount" >
+       <number>3</number>
+      </property>
+      <property name="sortingEnabled" >
+       <bool>true</bool>
+      </property>
+      <column>
+       <property name="text" >
+        <string>0</string>
+       </property>
+      </column>
+      <column>
+       <property name="text" >
+        <string>1</string>
+       </property>
+      </column>
+      <column>
+       <property name="text" >
+        <string>2</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources>
+  <include location="fileviewer" />
+  <include location="fileviewer.qrc" />
+ </resources>
+ <connections/>
+</ui>

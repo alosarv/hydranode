@@ -1,0 +1,23 @@
+exe console
+	: main.cpp launcher.cpp launcher.h searchlist.cpp
+	  downloadlist.cpp consolewnd.cpp console.ui qhex.cpp launcher.qrc
+	  ../hncgcomm/test/ecomm.cpp ../hncgcomm/test/ecomm.h
+	  ../hncgcomm//hncgcomm /qt4//QtGui /qt4//QtNetwork
+	: <include>../hncgcomm/test <include>.
+;
+
+QTDIR = [ modules.peek : QTDIR ] ;
+if ! $(QTDIR) {
+	QTDIR = /usr/local/Trolltech/Qt-4.0.0/lib ;
+} else {
+	QTDIR = $(QTDIR)/lib ;
+}
+
+import os ;
+if [ os.name ] = NT {
+	stage lib : ../hncgcomm//hncgcomm : <location>../ ;
+} else {
+	stage lib : ../hncgcomm//hncgcomm : <location>../lib ;
+}
+
+stage stage : console : <location>../ : <dll-path>$(QTDIR) <dll-path>lib ;

@@ -1,0 +1,409 @@
++------------------+
+| Hydranode v0.3.0 |
++ -----------------+
+ April 28th, 2006
+
+ Graphical User Interface (NEW) (madcat)
+  * Supports search, download and shared files lists
+  * Lists loaded modules
+  * Shows networking statistics
+  * Lists eDonkey2000 server list
+
+ Core/GUI communication (NEW) (madcat)
+  * Supports networking, files, modules and custom data syncronization with
+    user interface(s).
+
+ Hydranode Base (madcat)
+  * No longer writes ANSI color codes to logfile
+  * Portability to platforms without stdint.h header
+  * Portability to unix variants without execinfo.h header
+  * Full support windows XP Service Pack 2 (half-open connections limiting)
+  * Using hand-crafted event multiplexing system in sockets to bypass the slow 
+    Boost.Signals
+  * Fixed issues with >2GB files on Windows
+  * Fixed issues with UDP packets handling when multiple packets arrive with
+    short interval (previously this caused the socket to become 'dead')
+  * Support for more than 64 concurrent open connections on Windows
+  * Handles some race conditions in networking, where events come from backend 
+    when frontend has been destroyed more gracefully
+  * Now remembering total downloaded/uploaded/uptime across sessions (global)
+
+ Hydranode Core (madcat)
+  * No longer allocates disk space when shutting down
+  * Cleans up filename of invalid characters when starting downloads
+  * Fixed uploading issues while moving completed download to incoming
+  * Uploaded amount (for shared files) is now properly stored across sessions
+  * Avoids duplicate scanning of already-scanned directories
+  * Fixed crash when download is canceled while chunk hash job is in progress
+  * Added dynamic module-based upload-speed scaling based on module's overall 
+    upload/download data ratio, thus upload-capable modules that have downloaded
+    70% of data get 70% of upload slots. Note that these are not hard limits, so
+    actual results may vary depending on various conditions.
+  * Faster and non-blocking disk space allocation for downloads
+  * Fixes crashes when search result handlers get destroyed
+  * Properly updates file modification date after movework finishes
+  * --disable-colors and --transform-colors command-line options
+  * --module-dir command-line option
+  * Now correctly handles temp/shared dirs with '..' in path names
+  * No longer shares desktop.ini, thumbs.db and similar files
+  * No longer loses custom metadata after file rehash
+
+ Bittorrent Module (madcat)
+  * Fixed 'links' command for single-file torrents after restart
+  * Reduced outgoing client connection timeout from 30s to 5s
+  * Fixed an issue with URI delimineters not being encoded in tracker GET 
+    request (ticket #225).
+  * Handles tracker responses sent with \n newline instead of \r\n
+  * Properly seeds downloaded torrents after completition
+  * Cleans up cache folder on download completition or canceling
+  * Properly urlencodes HEAD / GET request arguments (ticket #235)
+  * Listening ports are now restarted instantly after runtime configuration 
+    changes
+  * Fixed some crashes during torrent completition
+  * Multi-tracker support
+  * Fixed uploaded/downloaded ratio calculation
+
+ eDonkey2000 Module (madcat)
+  * Reduced outgoing client connection timeout from 30s to 5s
+  * Fixed parsing QueueRanking packets from MLDonkey clients
+  * Fixed a bug where client would be dropped after download session end, when 
+    the remote client contacted us and sent AcceptUploadReq, and we didn't send 
+    ReqFile.
+  * Now properly destroys remote LowID clients if we are also LowID.
+  * More default (hardcoded) servers
+  * Support for global searching
+  * Miscellaneous protocol performance improvements and fine-tuning
+  * Properly switches sources to other files on download completition now
+  * GlobGetSources v2 packet is sent with different opcode. This raises UDP 
+    source queries effectiveness by ~5 times (from 4% to 20+%)
+  * Better A4AF handling
+  * Listening ports are now restarted instantly after runtime configuration 
+    changes
+  * Setting 'ed2k/FindServers' can be set to '0' now to disable receiving 
+    servers from clients and servers
+
+ Email notifications (madcat)
+  * Fixes unhandled exceptions from connect() call (ticket #217)
+
+ HLink application (madcat)
+  * It's now possible to pass full paths (to .torrent files etc)
+
++------------------+
+| Hydranode v0.2.0 |
++ -----------------+
+ February 1st, 2006
+
+ Hydranode Base (madcat)
+  * API for UPnP port forwarding
+  * Status bar is updated at 100ms intervals only to reduce cpu usage
+  * Timed callbacks API by cyberz
+  * Fixed unhandled exceptions from SocketServer::accept()
+  * Fixed memory leak when SocketClient::connect() fails
+  * Fixed large files support on Linux
+  * Added generic SpeedMeter API
+  * New configuration value NewConnsPerSec to help with buggy routers
+  * Networking scheduler optimizations
+  * Caches current tick in main event loop to reduce gettimeofday() 
+    syscalls on Linux
+  * Fixed critical integer overflow issue in Range::operator<, which 
+    caused broken IPFilter behaviour
+  * Added mechanism to allow plugins instantly react to configuration
+    changes (done via hnsh) without needing a restart
+  * All transfer rates are averaged at 3 seconds, resulting in more 
+    stable rates
+  * Invalid configuration values no longer cause exceptions
+  * Fixed some thread-safety issues in Event subsystem
+  * Fixed some thread-safety issues in WorkThread subsystem
+  * Rewrote DNS resolver API, using native API calls and worker thread
+  * Added API for TCP window scaling at Networking subsystem
+  * Added base64 encoder/decoder utility functions (wubbla)
+  * Added stackTrace utility function
+
+ Hydranode Core (madcat)
+  * PartData and SharedFile classes are now customizable via virtual methods
+  * Largely improved Chunk-selection algorithm in PartData, now capable 
+    of handling thousands of chunks
+  * Support for pausing and stopping downloads
+  * Fixed downloading of files of exact multiple of ED2K Part Size (9500kb)
+  * Disk space allocation is done in separate thread
+  * Downloads are auto-paused when running out of disk space
+  * Fixed multiple rehashes on fat32 partitions due to 1ms variation in 
+    modification dates
+  * Added ClientManager and BaseClient APIs
+  * Complete/Incomplete types were reversed when publishing files to 
+    server (owe)
+  * Configuration directory can be overridden from commandline using -c option
+  * Fixed error-handling code when loading broken temp files
+  * Fixed some memory leaks in hasher subsystem
+  * Optimized temp files saving routines by skipping over files which 
+    don't need to be saved at the time
+  * Statistical data is now stored in statistics.ini instead of config.ini
+  * Combines adjacent entries in ip filter to save some memory 
+    (thanks to solo for the idea)
+  * File names and comments received from networks are now stored, and 
+    viewable from hnsh via 'vd #num' command
+
+ eDonkey2000 Module (madcat)
+  * Now properly detects Hybrid and MLDonkey clients
+  * Support for updated GetSources packet (adds filesize to the request)
+  * Only one UDP listener socket is now used instead of two
+  * Uploads slightly more to one client per session, e.g. exact multiple 
+    of 180kb ("upload full chunks")
+  * Avoids 1-2-sec variation in reask handling, which caused many 
+    clients to become "zombie", e.g. never asked again
+  * Compression support disabled pending further investigations
+  * Attempt two TCP reasks instead of one when three UDP reasks fail
+  * Handles QueueRanking while transfer is in progress correctly
+  * Fixed client credits score calculation
+  * Removed "early disconnection" system completely
+  * No longer sends UDP packets to clients which have UDP disabled
+  * Reasks no-needed-parts sources only once per hour
+  * Forces TCP reask when our IP has changed since last reask
+  * Tweaking socket timeouts:
+    - 2 minutes when file data is expected or being sent
+    - 30 seconds during connection attempt
+    - 10 seconds otherwise
+  * Message filter can now be customized by specifying path to filter
+    file in config.ini, key 'MessageFilter' (one string per line).
+  * Message filtering can be disabled by setting the config value to 
+    'disable'
+  * Regularly saves server.met and clients.met during runtime.
+  * Fixed clients.met corruption and compatibility issues on Windows
+  * ed2k.ini has been removed, and the settings moved to global config.ini
+  * Fixed parsing of non-standard AnswerSources packet
+  * Userhash is now stored in eMule-compatible format (userhash.dat)
+  * Dynamic upload-slot count scaling to handle large upload limits better
+  * Fixes several issues related to Secure User Identification
+  * Miscellaneus bugfixes and performance improvements
+
+ HTTP Module (wubbla)
+  * Segmented downloading works properly now
+  * Rewrote large parts of the codebase
+  * Handles HTTP 300-series status codes correctly
+  * Fixed crashes/freezes on shutdown
+  * Correctly handles HTTP url arguments (file?argument=value)
+  * Fixed downloading files from sourceforge and from HTTP servers that 
+    don't report file sizes, e.g. lighttpd
+  * Fixes file naming issues when following HTTP redirects
+  * Handles URLs which contain IP address instead of hostname properly
+  * HTTP Proxy support
+  * Support for encoded urls
+  * Support for content-disposition HTTP header
+  * httpget utility, which behaves much like wget utility
+  * Support for HTTP Basic-Authentication, e.g. http://user:pass@host/
+  * Support for roundrobin DNS
+  * Module is now fully documented and fully compliant with Hydranode 
+    Coding Standard
+  * Added support for HTTP/1.1 protocol
+  * Properly sends User-Agent HTTP header
+  * Correctly handles some broken servers that use \n instead of \r\n
+
+ Bittorrent Module (NEW) (madcat)
+  * Supports basic Client<->Tracker communication
+  * Supports basic Client<->Client communication
+  * Smart cross-file chunks handling that will allow canceling, pausing 
+    and resuming of individual files in the torrent
+  * Standalone bget utility which behaves similarly to wget
+  * Supports cooperative downloading with other modules (ed2k) when the
+    needed hashes are found in .torrent file
+  * Support for roundrobin DNS of tracker host
+  * Standard-compliant choking algorithm
+  * Supports 'key' tracker query value
+
+ Hydranode Shell Module (madcat)
+  * NEW: multi-line download list, with colors
+  * NEW: addsource command can be used to manually add sources to 
+         downloads supporting it (currently only HTTP)
+  * NEW: vc command now displays information about remote clients
+  * NEW: clear command clears the telnet window contents
+  * NEW: share command makes directories available for sharing
+  * NEW: links command displays ed2k/http etc links of downloads
+  * Availability, transfer rates and more are now displayed
+  * Simplified usage syntax for module-specific commands; now you can access
+    module commands via 'modulename command', e.g. 'ed2k list', 'ed2k 
+    connect Raz' etc.
+  * lsmod command also now displays transfer rates
+  * Fixed parsing of escape characters at end of input
+  * Fixed parsing of double-escape symbols
+  * Multi-selection capabilities - you can now specify list of objects 
+    to affect with a command, e.g. 'pause 0-5,8,9' pauses downloads 
+    0,1,2,3,4,5,8 and 9. Same applies to stop, resume and cancel, and
+    when starting downloads from search results
+  * You can now specify destination directory when starting downloads 
+    from search results, e.g. 'do 5 /data/video'
+  * Smart commands abbrevation system, such as 'ed' can be used instead 
+    of 'ed2k'
+
+ Miscellaneous - Build system (sca)
+  * Compilation options --with-mod-NAME and --without-mod-NAME 
+  * bjam install, install-libs and install-headers rules 
+  * --bindir, --libdir and --includedir options for install rule 
+  * Wrapper scripts for running installed Hydranode from correct paths
+
+ Miscellaneus - other (madcat)
+  * Now based on Boost 1.33.1
+  * Fully compatible with MSVS 2003 and MSVS 2005
+  * Support for colors on Windows
+  * Support for Intel Optimizing Compiler v9.0 (tested on Linux)
+  * Support for MSVS 2003 Toolkit
+
++------------------+
+| Hydranode v0.1.2 |
++------------------+
+
+ After three months of active development, we are proud to present to you the
+ next version of Hydranode - 0.1.2. This version includes a balanced set of new
+ features, bugfixes and performance improvements in various areas, detailed
+ below.
+
+ I would like to thank the following persons for their continued support and
+ work on different Hydranode-related topics:
+
+ => cyberz   <=, for the DNS resolver and miscellaneus patches.
+ => wubbla   <=, for the HTTP module and HydraLoad firefox plugin
+ => theos    <=, for interesting ideas
+ => chemical <=, for hnanalyze utility improvements
+ => arlekin  <=, for various graphics / design-related work and advice
+
+ Happy downloading
+
+ Alo Sarv aka Madcat
+ Hydranode Project lead developer
+
+
+
+Changes since version 0.1.1:
+----------------------------
+
+Engine:
+ * Custom MetaData fields support (for http urls, torrent data etc).
+ * Fixed writing to temp files for which there are no known chunks
+   (e.g. chunkless downloading).
+ * Hashing is paused while scanning directories to improve scan
+   performance with many files / folders.
+ * Properly fixed UDP sockets polling.
+ * Theoretical support for other big endian platforms, such as SPARC, Alpha and
+   MIPS.
+ * More generic binary IO API, which can handle all combinations of
+   host/protocol endianess cleanly.
+ * Support for ip filters. MlDonkey, eMule and guardian.p2p formats are
+   supported and auto-detected.
+ * Improved global random number generator.
+ * Improved support for FAT32 partition as temp files location.
+ * Safer and improved handling of the situation where temp/shared files
+   are modified outside the application.
+ * Ctrl+C now causes clean shutdown on Windows platform as well.
+ * Fixed endless loops when shared files are deleted.
+ * Handles hashing of files without read permission on UNIX gracefully.
+ * Better deduction of configuration directory location on Windows, no longer
+   adds redundant ".exe" extension.
+ * Avoid 100% CPU load loop when there are no sockets being used.
+ * Added support for changing configuration settings on runtime.
+ * Running out of disk space no longer corrupts temp files.
+ * Added asyncronous DNS resolution API
+
+eDonkey2000 Module:
+ * Avoid excessive TCP reasks when UDP reasks start failing.
+ * Miscellanous bugfixes and stability improvements.
+ * Userhashes are now more random.
+ * Now properly supports min/max filesize and type queries at protocol level.
+ * Can now import partial eMule/aMule format downloads.
+ * Fixed Secure User Identification on big endian platforms.
+ * Updated to Zlib 1.2.3 - fixes multiple potential security vulnerabilities
+   and miscellaneus bugs.
+ * Fixed problems of downloading files less than 9500kb.
+ * No longer overwrites port settings when fallback ports are being used.
+ * Improved server connection randomization.
+ * Fixed some bugs that caused connection attempts to multiple servers at same
+   time.
+ * Fine-tuned server connecting login and timeout handling.
+
+Hydranode Shell Module:
+ * New global commands:
+   - ifs:     Displays ipfilter statistics.
+   - vr:      Displays most recent search results; allows sorting by various
+              predicates.
+   - vd:      Now also allows sorting of the list.
+   - import:  Attempt to import downloads from specified location (e.g. eMule
+              partial downloads).
+   - config:  Allows changing configuration settings on runtime
+              (only speeds/connections have effect right now).
+   - log:     Enables/disables log messages printing to shell.
+ * New context-specific new commands:
+   - at modules/ed2k/serverlist: stat - displays current server and network
+                                        status.
+
+New modules:
+ * Http   - allows downloading of files view HTTP/1.1 protocol.
+
+New/Updated utilities:
+ * hlink     - sends various types of links (ed2k, http et al) to running
+               Hydranode for downloading.
+ * hnanalyze - several performance upgrades, now also supports monthly and
+               yearly graphs.
+ * hydraload - plugin for FireFox browser that adds "Download with Hydranode..."
+               to right-click context menu.
+
+
+================================================================================
+
+v0.1.1 - Bugfixes and win32 port improvements
+25/05/2005
+	Highlights:
+	  * Largely improved performance on Windows
+	  * Many important bug/crash fixes
+
+	eDonkey2000 Module:
+	  * Fixed several crashes in eDonkey2000 module
+	  * Source-counters at various places are now more in sync
+	  * Fixed eDonkey2000 module internally duplicating each download object
+	  * Lowered default connection-limit to 50 on win32 until a better
+	    workaround against WinXP-connection-limits is implemented
+	Engine:
+	  * Fixed temp files loading from backup
+	  * Settings files are now created on first startup,
+	    rather than on first save/shutdown
+	  * Low-level IO functions now use 32bit length values
+	    (this caused very broken downloading performance on win32)
+	  * Fixed UDP sockets re-usage on Win2K/WinXP
+	    (fixes UDP reasks on Win32) [credits: anonymous blog comment]
+	Hydranode Shell:
+	  * HNShell no longer over-writes configuration values when fallback
+	    ports are being used
+	  * Added "add" command to modules/ed2k/serverlist (for adding servers)
+	Compilation/Build system:
+	  * Fixed compilation with custom boost path
+	    (use --with-boost=[abs-path] now)
+	  * Build system detects additional cases where system-wide
+	    Boost dlls are broken (SuSE 9.3 for example)
+	  * Fixed Boost libraries version checking on Darwin
+	Platform-specific:
+	  * Fixed modules loading when starting Hydranode from Finder (Darwin)
+
+================================================================================
+
+v0.1.0 - First public release
+15/05/2005
+	* Full support for eDonkey2000 network
+	* Built-in shell functionality
+	* Background daemon mode
+
+
+================================================================================
+
+* Dec 7, 2004 Alo Sarv <madcat@hydranode.com>
+	HydraNode now uses GNU build system. Users familiar with it should feel
+	right at home. Just in case someone forgot:
+	When building from CVS snapshot, you need to run autogen.sh first to
+	generate the basic files. autogen.sh requires various GNU auto-tools.
+
+	Run `configure', followed by `make'. Useful configure arguments are
+	--enable-optimize (disabled by default), and --enable-colors (enabled
+	by default). The binaries are built in their respective subdirectories,
+	but symlinked also to top-level directory for easier access.
+
+================================================================================
+
+* May 15, 2004 Alo Sarv <madcat@hydranode.com>
+	Initial launch of HydraNode project.
+

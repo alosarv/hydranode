@@ -1,0 +1,10 @@
+  Hydranode eDonkey2000 module TODO list
+
+ * AICH support
+ * Proper compressed downloads support (stream-based decompression)
+ * Unicode support (lug 17.1)
+ * Binary searches, e.g. `red or white`
+ * Exact searches, e.g. `"red or white"` (lug 17.4)
+ * Related searches, e.g. `related::<hash>` or `related:<size>:<hash>` (lug 17.5)
+ * eMuleCollection support (lug 17.5, eMule 0.46b)
+ * Filerating support in search results (lug 17.6)

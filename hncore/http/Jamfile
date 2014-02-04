@@ -1,0 +1,13 @@
+import hn ;
+project cmod_http ;
+
+local HTTP_SOURCES = client connection download parser parsedurl file ;
+hn.plugin : $(HTTP_SOURCES).cpp ;
+exe httpget
+	: cmod_http httpget.cpp ../../hnbase ../../hncore ../../extra
+	: <define>__HTTP_IMPORTS__
+;
+
+
+hn.install-bin httpget ;
+hn.install install-bin ;

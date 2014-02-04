@@ -1,0 +1,4 @@
+import hn ;
+
+project cmod_cgcomm ;
+hn.plugin ;

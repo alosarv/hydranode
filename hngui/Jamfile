@@ -1,0 +1,55 @@
+project fw : requirements <user-interface>gui ;
+
+import os ;
+local extrasrc ;
+if [ os.name ] = NT {
+	extrasrc = gui.rc ;
+}
+
+exe hydranode-gui : # gui layouts
+	  mainlayout.ui 
+	  transfercontent.ui searchcontent.ui librarycontent.ui
+	  settingstabs.ui 
+	   # filedetailsdock.ui searchdetailsdock.ui
+	  pagetemplate.ui home_homeactions.ui home_homepage.ui catdialog.ui
+	  commentframe.ui
+	# gui code
+	  downloadlist.cpp downloadlist.h 
+	  main.cpp main.h 
+	  searchtabs.h searchtabs.cpp
+	  searchlist.cpp searchlist.h
+	  transfertabs.cpp transfertabs.h
+	  settingspage.cpp settingspage.h 
+	  notifylabel.cpp notifylabel.h
+	  librarylist.cpp librarylist.h 
+	  librarytabs.cpp librarytabs.h 
+	  hometabs.cpp hometabs.h
+	  htreewidget.cpp 
+	  newsfeed.cpp newsfeed.h
+	  myhydra.cpp myhydra.h
+	  customheader.cpp customheader.h
+	# gui resources
+	  gui.qrc $(extrasrc)
+	# extra sources
+	  ../hncgcomm/cgcomm.cpp ../hncgcomm/utils.cpp ecomm.cpp ecomm.h 
+	  filetypes.cpp
+	# dependancies
+	   /qt4//QtGui /qt4//QtNetwork /qt4//QtXml
+	  ../extra//boost_signals ../extra//boost_date_time
+	
+	# plugins (built-in currently due to lack of support for plugin loading)
+	  plugins/donkeypage.cpp plugins/donkeypage.h plugins/donkeypage_ui.ui
+	: <include>. 
+	  <define>QT_NO_KEYWORDS
+	  <variant>release:<define>QT_NO_DEBUG
+	  <variant>profile:<define>QT_NO_DEBUG
+;
+
+stage stage 
+	: hydranode-gui ../extra//boost_signals ../extra//boost_date_time
+	: <variant>debug:<location>debug
+	  <variant>release:<location>release
+	  <variant>profile:<location>profile
+	  <dll-path>.
+	  <dll-path>lib
+;

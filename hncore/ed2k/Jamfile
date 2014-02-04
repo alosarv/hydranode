@@ -1,0 +1,9 @@
+import hn ;
+
+project cmod_ed2k ;
+hn.plugin
+	: # Sources
+	: # Headers
+	: <toolset>gcc:<cflags>-Wno-return-type <toolset>gcc:<linkflags>"-Wl,-R -Wl,\"lib\"" # Options
+	: $(HN_ROOT)/extra/zlib # Deps
+;
