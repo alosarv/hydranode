@@ -1,5 +1,25 @@
 
-		Hydranode - Modular MultiPlatform P2P Client Framework
+Hydranode - Modular MultiPlatform P2P Client Framework
+======================================================
+
+Historical Notes
+----------------
+
+I developed this project between 2004 until 2006 as means of learning advanced C++ programming. 
+The original website is still up at http://www.hydranode.com/, where you can also download 
+precompiled binaries.
+
+There are no guarantees at this point that any of the code compiles with modern compilers, nor that the
+client actually works well (or at all) in the eDonkey2000 and BitTorrent networks.
+
+I'm making this codebase available on GitHub in the hopes that someone might be able to find useful bits
+in here, may it be for educational or other reasons.
+
+What follows is the original README from 2006.
+
+====
+
+
 
 Compilation
 -------------
@@ -109,7 +129,7 @@ More help or support
 
  Happy downloading,
 
- Alo Sarv <madcat (at) hydranode (dot) com>,
+ Alo Sarv - madcat (at) hydranode (dot) com,
  on behalf of Hydranode Development Team.
 
 -----------------------------------------
