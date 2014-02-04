@@ -1,6 +1,10 @@
 
-Hydranode - Modular MultiPlatform P2P Client Framework
+Hydranode
 ======================================================
+Modular MultiPlatform P2P Client Framework
+------------------------------------------
+
+====
 
 Historical Notes
 ----------------
